@@ -1,0 +1,208 @@
+{
+    "dataset": {
+        "repo_id": "shashuo0104/xarm7_pack_sloth",
+        "root": null,
+        "episodes": null,
+        "image_transforms": {
+            "enable": true,
+            "max_num_transforms": 3,
+            "random_order": true,
+            "tfs": {
+                "brightness": {
+                    "weight": 1.0,
+                    "type": "ColorJitter",
+                    "kwargs": {
+                        "brightness": [
+                            0.8,
+                            1.2
+                        ]
+                    }
+                },
+                "contrast": {
+                    "weight": 1.0,
+                    "type": "ColorJitter",
+                    "kwargs": {
+                        "contrast": [
+                            0.8,
+                            1.2
+                        ]
+                    }
+                },
+                "saturation": {
+                    "weight": 1.0,
+                    "type": "ColorJitter",
+                    "kwargs": {
+                        "saturation": [
+                            0.5,
+                            1.5
+                        ]
+                    }
+                },
+                "hue": {
+                    "weight": 1.0,
+                    "type": "ColorJitter",
+                    "kwargs": {
+                        "hue": [
+                            -0.05,
+                            0.05
+                        ]
+                    }
+                },
+                "sharpness": {
+                    "weight": 1.0,
+                    "type": "SharpnessJitter",
+                    "kwargs": {
+                        "sharpness": [
+                            0.5,
+                            1.5
+                        ]
+                    }
+                },
+                "perspective": {
+                    "weight": 1.0,
+                    "type": "RandomPerspective",
+                    "kwargs": {
+                        "distortion_scale": 0.025,
+                        "p": 1.0
+                    }
+                },
+                "rotation": {
+                    "weight": 1.0,
+                    "type": "RandomRotation",
+                    "kwargs": {
+                        "degrees": [-5,5]
+                    }
+                },
+                "crop": {
+                    "weight": 1.0,
+                    "type": "RandomCrop",
+                    "kwargs": {
+                        "size": [
+                            200,
+                            200
+                        ]
+                    }
+                }
+                },
+            "downsample": {
+                "resize": {
+                    "weight": 1.0,
+                    "type": "Resize",
+                    "kwargs": {
+                        "size": [
+                            240,
+                            240
+                        ]
+                    }
+                }
+            }
+        },
+        "revision": null,
+        "use_imagenet_stats": true,
+        "video_backend": "torchcodec"
+    },
+    "env": null,
+    "policy": {
+        "type": "act",
+        "n_obs_steps": 1,
+        "normalization_mapping": {
+            "VISUAL": "MEAN_STD",
+            "STATE": "MEAN_STD",
+            "ACTION": "MEAN_STD"
+        },
+        "input_features": {
+            "observation.image.side": {
+                "type": "VISUAL",
+                "shape": [
+                    3,
+                    240,
+                    240
+                ]
+            },
+            "observation.image.wrist": {
+                "type": "VISUAL",
+                "shape": [
+                    3,
+                    240,
+                    240
+                ]
+            },
+            "observation.state": {
+                "type": "STATE",
+                "shape": [
+                    8
+                ]
+            }
+        },
+        "output_features": {
+            "action": {
+                "type": "ACTION",
+                "shape": [
+                    8
+                ]
+            }
+        },
+        "relative_actions": false,
+        "device": "cuda",
+        "use_amp": false,
+        "chunk_size": 50,
+        "n_action_steps": 50,
+        "vision_backbone": "resnet18",
+        "pretrained_backbone_weights": "ResNet18_Weights.IMAGENET1K_V1",
+        "replace_final_stride_with_dilation": false,
+        "pre_norm": false,
+        "dim_model": 512,
+        "n_heads": 8,
+        "dim_feedforward": 3200,
+        "feedforward_activation": "relu",
+        "n_encoder_layers": 4,
+        "n_decoder_layers": 1,
+        "use_vae": true,
+        "latent_dim": 32,
+        "n_vae_encoder_layers": 4,
+        "temporal_ensemble_coeff": null,
+        "dropout": 0.1,
+        "kl_weight": 10.0,
+        "optimizer_lr": 1e-05,
+        "optimizer_weight_decay": 0.0001,
+        "optimizer_lr_backbone": 1e-05
+    },
+    "output_dir": null,
+    "job_name": null,
+    "resume": false,
+    "seed": 100000,
+    "num_workers": 4,
+    "batch_size": 512,
+    "steps": 20000,
+    "eval_freq": 2000,
+    "log_freq": 200,
+    "save_checkpoint": true,
+    "save_freq": 1000,
+    "use_policy_training_preset": true,
+    "optimizer": {
+        "type": "adamw",
+        "lr": 1e-05,
+        "weight_decay": 0.0001,
+        "grad_clip_norm": 10.0,
+        "betas": [
+            0.9,
+            0.999
+        ],
+        "eps": 1e-08
+    },
+    "scheduler": null,
+    "eval": {
+        "n_episodes": 50,
+        "batch_size": 50,
+        "use_async_envs": false
+    },
+    "wandb": {
+        "enable": true,
+        "disable_artifact": true,
+        "project": "lerobot",
+        "entity": null,
+        "notes": null,
+        "run_id": null,
+        "mode": null
+    }
+}

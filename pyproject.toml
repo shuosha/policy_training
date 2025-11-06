@@ -1,0 +1,190 @@
+[project]
+name = "policy"
+version = "0.0.1"
+description = "Unified training environment (LeRobot + OpenPI)"
+readme = "README.md"
+requires-python = ">=3.11"  # You can relax to >=3.10 if needed.
+license = { text = "Apache-2.0" }
+keywords = ["robotics", "deep learning", "pytorch", "jax"]
+
+# ---- Merged direct dependencies (deduped & reconciled) ----
+# - Torch floor raised to 2.7.0 to match OpenPI
+# - torchvision kept (needed by LeRobot); torchcodec kept (non-Windows/non-ARM)
+# - numpy pinned <2.0 per OpenPI
+# - imageio consolidated to include [ffmpeg] and satisfy both
+# - opencv: prefer headless for servers; drop GUI variant
+dependencies = [
+  # Core ML stacks
+  "torch==2.7.1",
+  "torchvision>=0.21.0",
+  "torchcodec==0.4.0",
+  "transformers>=4.48.1",
+  # Hugging Face / datasets / hubs
+  "huggingface_hub[hf-transfer,cli]>=0.27.1",
+  "datasets==2.19.1",
+  "jsonlines>=4.0.0",
+  # Vision / IO / media
+  "opencv-python-headless>=4.9.0",
+  "imageio[ffmpeg]>=2.36.1",
+  "pillow>=11.0.0",
+  "av>=14.2.0",
+  # Robotics / sim / envs
+  "gymnasium==0.29.1",
+  "gym-aloha>=0.1.1",
+  # JAX side (as per OpenPI)
+  "jax[cuda12]==0.5.3",
+  "flax==0.10.2",
+  "equinox>=0.11.8",
+  "jaxtyping==0.2.36",
+  "orbax-checkpoint==0.11.13",
+  "tyro>=0.9.5",
+  # Config & utils
+  "omegaconf>=2.3.0",
+  "ml_collections==1.0.0",
+  "packaging>=24.2",
+  "draccus==0.10.0",
+  "flatbuffers>=24.3.25",
+  "filelock>=3.16.1",
+  "typing-extensions>=4.12.2",
+  "beartype==0.19.0",
+  "rich>=14.0.0",
+  "polars>=1.30.0",
+  # Storage / data
+  "fsspec[http]==2024.3.1",
+  "gcsfs==2024.3.1",
+  "zarr>=2.17.0",
+  # Logging / dashboards
+  "wandb>=0.19.1",
+  "tqdm-loggable>=0.2",
+  "rerun-sdk>=0.21.0",
+  "termcolor>=2.4.0",
+  # Misc from LeRobot
+  "cmake>=3.29.0.1",
+  "deepdiff>=7.0.1",
+  "diffusers>=0.27.2",
+  "flask>=3.0.3",
+  "gdown>=5.1.0",
+  "h5py>=3.10.0",
+  "numba>=0.59.0",
+  "pymunk>=6.6.0,<7.0.0",
+  "pynput>=1.7.7",
+  "pyserial>=3.5",
+  "pyzmq>=26.2.1",
+  "pytest>=8.4.2",
+  # Numeric
+  "numpy>=1.22.4,<2.0.0",
+  "lerobot",
+  "openpi",
+  "transformers>=4.50.3", 
+  "num2words>=0.5.14", 
+  "accelerate>=1.7.0"
+]
+
+[project.optional-dependencies]
+# Merge of both projects' dev extras
+dev = [
+  # From OpenPI dev
+  "pytest>=8.3.4",
+  "ruff>=0.8.6",
+  "pre-commit>=4.0.1",
+  "ipykernel>=6.29.5",
+  "ipywidgets>=8.1.5",
+  "matplotlib>=3.10.0",
+  "pynvml>=12.0.0",
+  # From LeRobot dev/test
+  "debugpy>=1.8.1",
+  "pytest-cov>=5.0.0",
+  "mock-serial>=0.0.1 ; sys_platform != 'win32'",
+]
+
+# OpenPI's "rlds" group as an extra
+rlds = [
+  "dlimp",
+  "tensorflow-cpu==2.15.0",
+  "tensorflow-datasets==4.9.9",
+]
+
+# Keep LeRobot's optional groups (you can trim if not needed)
+aloha = ["gym-aloha>=0.1.1 ; python_version < '4.0'"]
+docs = ["hf-doc-builder @ git+https://github.com/huggingface/doc-builder.git@main", "watchdog >= 6.0.0"]
+dora = ["gym-dora @ git+https://github.com/dora-rs/dora-lerobot.git#subdirectory=gym_dora ; python_version < '4.0'"]
+dynamixel = ["dynamixel-sdk>=3.7.31"]
+feetech = ["feetech-servo-sdk>=1.0.0"]
+intelrealsense = [
+  "pyrealsense2>=2.55.1.6486 ; sys_platform != 'darwin'",
+  "pyrealsense2-macosx>=2.54 ; sys_platform == 'darwin'",
+]
+pi0 = ["transformers>=4.48.0"]
+smolvla = ["transformers>=4.50.3", "num2words>=0.5.14", "accelerate>=1.7.0"]
+pusht = ["gym-pusht>=0.1.5 ; python_version < '4.0'"]
+stretch = [
+  "hello-robot-stretch-body>=0.7.27 ; python_version < '4.0' and sys_platform == 'linux'",
+  "pyrender @ git+https://github.com/mmatl/pyrender.git ; sys_platform == 'linux'",
+  "pyrealsense2>=2.55.1.6486 ; sys_platform != 'darwin'",
+]
+test = ["pytest>=8.1.0", "pytest-cov>=5.0.0", "mock-serial>=0.0.1 ; sys_platform != 'win32'"]
+umi = ["imagecodecs>=2024.1.1"]
+video_benchmark = ["scikit-image>=0.23.2", "pandas>=2.2.2"]
+xarm = ["gym-xarm>=0.1.1 ; python_version < '4.0'"]
+
+[project.urls]
+homepage = "https://github.com/huggingface/lerobot"
+issues = "https://github.com/huggingface/lerobot/issues"
+discord = "https://discord.gg/s3KuuzsPFb"
+Repository = "https://github.com/Physical-Intelligence/openpi"
+
+# ---- Keep uv sources/pins for git-based deps (from OpenPI) ----
+[tool.uv]
+override-dependencies = ["ml-dtypes==0.4.1", "tensorstore==0.1.74"]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url  = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+openpi-client = { workspace = true }
+dlimp = { git = "https://github.com/kvablack/dlimp", rev = "ad72ce3a9b414db2185bc0b38461d4101a65477a" }
+lerobot = { path = "third_party/lerobot" }
+openpi = { path = "third_party/openpi" }
+torch = { index = "pytorch-cu128" }
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/policy"]
+
+[tool.hatch.build.targets.editable]
+packages = ["src/policy"]
+
+
+# ---- Ruff merged config (prefer OpenPI's) ----
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+extend-exclude = ["docker", "third_party", "tests/artifacts/**/*.safetensors"]
+
+[tool.ruff.lint]
+select = [
+  "B","C4","DTZ","E4","E7","E9","F","FBT","FURB","I","ICN","ISC","LOG","N","PD","PERF","PIE",
+  "PLC","PLE","PLR1","PLR5","PLW","PT","PTH","Q","RET","RUF","SIM","SLF","T10","T20","UP","W"
+]
+ignore = [
+  "F722",    # Conflicts with array typing.
+  "T201",    # We use print statements.
+  "PD008",   # Lots of false positives.
+  "ISC001",  # Disabling to support ruff format.
+  "LOG015",  # Use logger.info.
+]
+unfixable = ["B905"]
+
+[tool.ruff.lint.isort]
+force-single-line = true
+force-sort-within-sections = true
+single-line-exclusions = ["collections.abc", "typing", "typing_extensions"]
+known-third-party = ["wandb"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -1,0 +1,11 @@
+{
+    "task_name": "insert_rope",
+    "pre_crop": [0, 480, 0, 848],
+    "pre_resize": [120, 212],
+    "crop": [110, 202],
+    "resize": [120, 212],
+    "action_dim": 8,
+    "fixed_pos_z": null,
+    "chunk_size": 50,
+    "overlay": null
+}

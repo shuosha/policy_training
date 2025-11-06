@@ -1,0 +1,11 @@
+{
+    "task_name": "pack_sloth",
+    "pre_crop": [0, 480, 100, 748],
+    "pre_resize": [240, 240],
+    "crop": [200, 200],
+    "resize": [240, 240],
+    "action_dim": 8,
+    "fixed_pos_z": null, 
+    "chunk_size": 50,
+    "overlay": null
+}
