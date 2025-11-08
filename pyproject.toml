@@ -12,7 +12,6 @@ keywords = ["robotics", "deep learning", "pytorch", "jax"]
 # - torchvision kept (needed by LeRobot); torchcodec kept (non-Windows/non-ARM)
 # - numpy pinned <2.0 per OpenPI
 # - imageio consolidated to include [ffmpeg] and satisfy both
-# - opencv: prefer headless for servers; drop GUI variant
 dependencies = [
   # Core ML stacks
   "torch==2.7.1",
@@ -24,7 +23,7 @@ dependencies = [
   "datasets==2.19.1",
   "jsonlines>=4.0.0",
   # Vision / IO / media
-  "opencv-python-headless>=4.9.0",
+  "opencv-python>=4.9.0",
   "imageio[ffmpeg]>=2.36.1",
   "pillow>=11.0.0",
   "av>=14.2.0",
